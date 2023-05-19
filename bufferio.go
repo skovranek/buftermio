@@ -11,7 +11,7 @@ import (
 func GetInput(output chan string) {
 	exec.Command("stty", "-f", "/dev/tty", "cbreak", "min", "1").Run()
 	exec.Command("stty", "-f", "/dev/tty", "-echo").Run()
-	defer func(){exec.Command("stty", "-f", "/dev/tty", "sane").Run()}()
+	//defer func(){exec.Command("stty", "-f", "/dev/tty", "sane").Run()}()
 
 	reader := bufio.NewScanner(os.Stdin)
 	reader.Split(bufio.ScanBytes)
@@ -111,4 +111,8 @@ func backSpace(n int) {
 	for i := 0; i < n; i++ {
 		logN(27, 91, 68, 32, 27, 91, 68) // LEFT, space, LEFT
 	}
+}
+
+func DeferMe() {
+	exec.Command("stty", "-f", "/dev/tty", "sane").Run()
 }

@@ -2,12 +2,11 @@ package main
 
 import (
 	"fmt"
-	exec "golang.org/x/sys/execabs"
 )
 
 // REPL
 func main() {
-	defer func(){exec.Command("stty", "-f", "/dev/tty", "sane").Run()}()
+	defer DeferMe()
 
 	ch := make(chan string)
 
