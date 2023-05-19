@@ -11,7 +11,6 @@ import (
 func GetInput(output chan string) {
 	exec.Command("stty", "-f", "/dev/tty", "cbreak", "min", "1").Run()
 	exec.Command("stty", "-f", "/dev/tty", "-echo").Run()
-	//defer func(){exec.Command("stty", "-f", "/dev/tty", "sane").Run()}()
 
 	reader := bufio.NewScanner(os.Stdin)
 	reader.Split(bufio.ScanBytes)
@@ -26,6 +25,7 @@ func GetInput(output chan string) {
 	
 	for reader.Scan() {
 		b := reader.Bytes()
+		// glitch: occasionally messes up which slice is appended to
 		buffer = append(buffer, b...)
 
 		cursor++
@@ -42,6 +42,8 @@ func GetInput(output chan string) {
 			copy := make([]byte, 0)
 			copy = append(copy, buffer...)
 			output <- string(copy)
+
+			// contributing factor of memory address confusion for the append func?
 			buffer = make([]byte, 0)
 			cursor = 0
 
@@ -62,6 +64,8 @@ func GetInput(output chan string) {
 			if index > 0 {
 				backSpace(len(buffer))
 				index--
+
+				// contributing factor of memory address confusion for the append func?
 				buffer = make([]byte, 0)
 				buffer = append(buffer, history[index]...)
 				cursor = len(buffer)
@@ -76,6 +80,8 @@ func GetInput(output chan string) {
 			if index < len(history)-1 {
 				backSpace(len(buffer))
 				index++
+
+				// contributing factor of memory address confusion for the append func?
 				buffer = make([]byte, 0)
 				buffer = append(buffer, history[index]...)
 				cursor = len(buffer)
@@ -102,6 +108,8 @@ func logN(n ...int) {
 
 func removeLast(data []byte, n int) []byte {
 	if len(data) >= n {
+		
+		// contributing factor of memory address confusion for the append func?
 		return data[0 : len(data)-n]
 	}
 	return data
