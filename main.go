@@ -6,16 +6,20 @@ import (
 
 // REPL
 func main() {
+	PrepTerm()
+
 	defer DeferMe()
 
-	ch := make(chan string)
+	buffer := NewBuffer()
+
+	fmt.Println("enter 'q' to exit")
 
 	loop := true
-	
 	for ; loop; {
-		go GetInput(ch)
-		input := <- ch
+		input := buffer.GetInput()
+
 		fmt.Printf("Input: %s\n", input)
+
 		if input == "q" {
 			loop = false
 			fmt.Println("QUIT")
