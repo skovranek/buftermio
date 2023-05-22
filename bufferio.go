@@ -8,27 +8,39 @@ import (
 	"fmt"
 )
 
+/*
+note: cursor in shell dictates where chars print
+TODO:
+[x] remove right/left arrow bytes
+[x] add cursor property
+[ ] ++/-- cursor position as needed
+[ ] frontspace: backspace in front of cursor
+[ ] overwrite byte slice at cursor
+[ ] overwrite byte slice at index (& cursor)
+[ ] add custom prompt $ 
+*/
+
 var carriageReturn []byte = []byte{uint8(10)}
 var deleteByte     []byte = []byte{uint8(127)}
 var upArrow        []byte = []byte{uint8(27), uint8(91), uint8(65)}
 var downArrow      []byte = []byte{uint8(27), uint8(91), uint8(66)}
+var rightArrow     []byte = []byte{uint8(27), uint8(91), uint8(67)}
+var leftArrow      []byte = []byte{uint8(27), uint8(91), uint8(68)}
 
 type buffer struct {
 	reader  *bufio.Scanner
 	buf     []byte
 	start   int
 	end     int
+	cursor  int
 	history [][]byte
 	index   int
-	//output  chan string
 }
 
 type bufferI interface {
 	// trying a new indenting style for readability
 	 NewBuffer() buffer
-        bufLen() int
        readLen() int
-       histLen() int
       indexLen() int
           read() []byte
          print()
@@ -43,34 +55,23 @@ type bufferI interface {
 func NewBuffer() buffer {
 	newReader := bufio.NewScanner(os.Stdin)
 	newReader.Split(bufio.ScanBytes)
-
 	newBuffer := buffer{
 		reader:  newReader,
 		buf:     make([]byte, 0),
 		start:   0,
 		end:     0,
+		cursor:  0,
 		history: make([][]byte, 0),
-		index: 0,
-		//output:  make(chan string),
+		index:   0,
 	}
-	PrepTerm()
 	return newBuffer
-}
-
-func (b *buffer) bufLen() int {
-	return len(b.buf)
 }
 
 func (b *buffer) readLen() int {
 	return b.end - b.start
 }
 
-func (b *buffer) histLen() int {
-	return len(b.history)
-}
-
 func (b *buffer) indexLen(n int) int {
-
 	return len(bytes.TrimSpace(b.history[n]))
 }
 
@@ -92,11 +93,11 @@ func (b *buffer) contains(data []byte) bool {
 
 func (b *buffer) write(data ...byte) {
 	b.buf = append(b.buf, data...)
-	b.end = b.bufLen()
+	b.end = len(b.buf)
 }
 
 func (b *buffer) newLine(data ...byte) {
-	next := b.bufLen()
+	next := len(b.buf)
 	b.write(data...)
 	b.start = next
 }
@@ -109,41 +110,46 @@ func (b *buffer) removeLast(n int) {
 }
 
 func (b *buffer) add() {
-	if b.histLen() > 0 && b.indexLen(b.histLen()-1) == 0 {
-		b.history[b.histLen()-1] = b.read()
+	if len(b.history) > 0 && b.indexLen(len(b.history)-1) == 0 {
+		b.history[len(b.history)-1] = b.read()
 	} else {
 		b.history = append(b.history, b.read())
 	}
 }
 
 func (b *buffer) GetInput() string {
+	PrepTerm()
+	defer DeferSane()
+
 	for b.reader.Scan() {
 		newByte := b.reader.Bytes()
 		b.write(newByte...)
-		log(newByte)
+		fmt.Print(string(newByte))
 
 		if b.contains(carriageReturn) {
 			b.removeLast(1)
-			// if last saved byte slice in b.history is empty, replace it
-			b.add()
-			b.index = b.histLen()
+			if b.readLen() > 0 {
+				b.add()
+				b.index = len(b.history)
+			}
 			copy := make([]byte, 0)
 			copy = append(copy, b.read()...)
 			b.newLine()
 			return string(copy)
 
 		} else if b.contains(deleteByte) {
-			b.removeLast(2)
 			if b.end - b.start > 1 {
+				b.removeLast(2)
 				backSpace(1)
 			} else {
-				logInt(7)
+				b.removeLast(1)
+				log(7)
 			}
 
 		} else if b.contains(upArrow) {
 			b.removeLast(3)
-			logInt(27, 91, 66)
-			if b.index == b.histLen() && b.index > 0 {
+			log(27, 91, 66)
+			if b.index == len(b.history) && b.index > 0 {
 				b.add()
 			}
 			if b.index > 0 {
@@ -152,33 +158,33 @@ func (b *buffer) GetInput() string {
 				b.newLine(b.history[b.index]...)
 				b.print()
 			} else {
-				logInt(7) // bell
+				log(7) // bell
 			}
 
 		} else if b.contains(downArrow) {
 			b.removeLast(3)
-			if b.index < b.histLen()-1 {
+			if b.index < len(b.history)-1 {
 				backSpace(b.readLen())
 				b.index++
 				b.newLine(b.history[b.index]...)
 				b.print()
 			} else {
-				logInt(7) // bell
+				log(7) // bell
 			}
-		}
-		// process LEFT/RIGHT arrows?
-	}
 
+		} else if b.contains(rightArrow) {
+			b.removeLast(3)
+
+		} else if b.contains(leftArrow) {
+			b.removeLast(3)
+		}
+	}
 	return ""
 }
 
 // Helpers
 
-func log(data []byte) {
-	fmt.Print(string(data))
-}
-
-func logInt(n ...int) {
+func log(n ...int) {
 	for _, val := range n {
 		fmt.Print(string([]byte{uint8(val)}))
 	}
@@ -186,13 +192,12 @@ func logInt(n ...int) {
 
 func backSpace(n int) {
 	for i := 0; i < n; i++ {
-		logInt(27, 91, 68, 32, 27, 91, 68) // LEFT, space, LEFT
+		log(27, 91, 68, 32, 27, 91, 68) // LEFT, space, LEFT
 	}
 }
 
 // Terminal commands
 
-// TODO: when to call this?
 func PrepTerm() {
 	// turn off buffer
 	exec.Command("stty", "-f", "/dev/tty", "cbreak", "min", "1").Run()
@@ -200,7 +205,7 @@ func PrepTerm() {
 	exec.Command("stty", "-f", "/dev/tty", "-echo").Run()
 }
 
-func DeferMe() {
+func DeferSane() {
 	exec.Command("stty", "-f", "/dev/tty", "sane").Run()
 }
 
@@ -231,7 +236,7 @@ tab:     9
 			b.removeLast(1)
 			// if last saved byte slice in b.history is empty, replace it
 			b.add()
-			b.index = b.histLen()
+			b.index = len(b.history)
 			copy := make([]byte, 0)
 			copy = append(copy, b.read()...)
 			output <- string(copy)
@@ -262,8 +267,8 @@ tab:     9
 			// print b
 		} else if b.contains(upArrow) {
 			b.removeLast(3)
-			logInt(27, 91, 66)
-			if b.index == b.histLen() && b.index > 0 {
+			log(27, 91, 66)
+			if b.index == len(b.history) && b.index > 0 {
 				b.add()
 			}
 			if b.index > 0 {
@@ -273,7 +278,7 @@ tab:     9
 				b.newLine(b.history[b.index]...)
 				b.print()
 			} else {
-				logInt(7) // bell
+				log(7) // bell
 			}
 
 		// else if bytes are DOWN/[]byte{uint8(27), uint8(91), uint8(66)}
@@ -286,13 +291,13 @@ tab:     9
 				// print b
 		} else if b.contains(downArrow) {
 			b.removeLast(3)
-			if b.index < b.histLen()-1 {
+			if b.index < len(b.history)-1 {
 				backSpace(b.readLen())
 				b.index++
 				b.newLine(b.history[b.index]...)
 				b.print()
 			} else {
-				logInt(7) // bell
+				log(7) // bell
 			}
 		}
 		// process LEFT/RIGHT arrows?

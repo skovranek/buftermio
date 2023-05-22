@@ -6,16 +6,13 @@ import (
 
 // REPL
 func main() {
-	PrepTerm()
-
-	defer DeferMe()
-
 	buffer := NewBuffer()
 
 	fmt.Println("enter 'q' to exit")
 
 	loop := true
 	for ; loop; {
+		fmt.Print("$ ") // remove
 		input := buffer.GetInput()
 
 		fmt.Printf("Input: %s\n", input)
