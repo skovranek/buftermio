@@ -26,4 +26,5 @@ Uses go1.14.15 because my machine is a macbook running El Capitan.
 example:
 
 buffer := buftermio.NewBuffer("$ ")
+
 input, err := buffer.GetInput()
