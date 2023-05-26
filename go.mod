@@ -1,4 +1,4 @@
-module github.com/skovranek/bug
+module github.com/skovranek/buftermio
 
 go 1.14
 
