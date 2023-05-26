@@ -1,6 +1,7 @@
 # buftermio
 Buffer Terminal I/O --> Buf + ter + io
 
+Basically an improved interface for a bufio.Scanner reading os.Stdin. 
 This is a cached buffer for your terminal for doing I/O with your go CLI programs. Tested on mac terminal only.
 Created this instead of using a bigger import like "term" because this package answers a very specific need.
 Based on bytes package Buffer struct.
