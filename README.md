@@ -1,5 +1,5 @@
 # buftermio
-Buffer Terminal I/O --> Buf + ter + io
+Buffer Terminal I/O --> Buf + term + io
 
 Basically an improved interface for a bufio.Scanner reading os.Stdin.
 
