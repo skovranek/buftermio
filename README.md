@@ -26,7 +26,7 @@ buffer := buftermio.NewBuffer("$ ")
 // or
 buffer := buftermio.NewBuffer()
 ```
-2) Call the GetInput method on the buffer each time you want to get input from the terminal.
+2) Call the GetInput method on the buffer each time you want to get input from the CLI.
 ```go
 input, err := buffer.GetInput()
 ```
@@ -38,6 +38,8 @@ input, err := buffer.GetInput()
 - _Note: Keys with escape sequences may not work. A-Z, 0-9, and most keys will behave normally. But, if on the off chance there is unpredicted effects when you use certain keys, you now know why. I'll gladly modify this if it becomes a problem for anyone._
 ## Dependencies
 Buftermio uses a subrepository from the Go Project called [execabs](https://pkg.go.dev/golang.org/x/sys/execabs) instead of the standard library's "os/exec" package because of a [path-security issue](https://go.dev/blog/path-security) with "os/exec".
+## Testing
+Manually tested with a bash shell in the macOS terminal. Mocking stdin would only test the mock.
 ## Contact
 Questions, issues or suggestions: mattjskov@gmail.com
 ## Contribute
