@@ -43,4 +43,4 @@ Manually tested with a bash shell in the macOS terminal. Mocking stdin would onl
 ## Contact
 Questions, issues or suggestions: mattjskov@gmail.com
 ## Contribute
-Feel free to chip in or fork to customize it for your project. Submit pull requests to the 'main' branch.
+Feel free to chip in. Let's work together to customize buftermio for your project. Submit pull requests to the 'main' branch.
