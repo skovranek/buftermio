@@ -3,8 +3,8 @@ package buftermio
 import "fmt"
 
 func (b *Buffer) GetInput() (string, error) {
-	defer DeferSane()
-    PrepTerm()
+	defer deferSane()
+    prepTerm()
 
 	fmt.Print(b.prompt)
 
