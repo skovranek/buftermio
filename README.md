@@ -8,15 +8,16 @@ Buftermio is an importable Go package. It provides a cached buffer for input fro
 _Basically, an improved interface for a bufio.Scanner reading os.Stdin._
 ## Why
 When you use a CLI shell, you may take for granted that you have a cached history of your commands. Then, when you go to use your own CLI program, suddenly you've lost that cache and have to type each command anew instead of just pressing up to scroll through previous commands. Here is buftermio to the rescue. Buftermio lets you scroll through your previous inputs with the up and down arrow keys!
-
-I made this to be as simple and straight forward as possible. No configuration except the optional prompt like a shell would have.
 ## How
-Inspired by the bytes package [Buffer](https://pkg.go.dev/bytes#Buffer) struct. Buftermio uses a [bufio.Scanner]([https://pkg.go.dev/bufio#Scanner.Bytes](https://pkg.go.dev/bufio#Scanner)) to read from [os.Stdin](https://pkg.go.dev/os#pkg-variables) for input. It temporarily prevents the CLI shell from printing to Stdout while buftermio reads from Stdin.
+Inspired by the bytes package [Buffer](https://pkg.go.dev/bytes#Buffer) struct. Buftermio uses a [bufio.Scanner]([https://pkg.go.dev/bufio#Scanner.Bytes](https://pkg.go.dev/bufio#Scanner)) to read from [os.Stdin](https://pkg.go.dev/os#pkg-variables) for input. It temporarily prevents the CLI shell from printing directly to Stdout while buftermio reads from Stdin. Buftermio intercepts each key to interpret them before printing them to Stdout.
+
 ## Download/Install
 Run
 ```
 go get github.com/skovranek/buftermio
 ```
+## Configure
+I made this to be as simple and straight forward as possible. No configuration except the optional prompt like a shell would have. See the NewBuffer function: [GitHub](https://github.com/skovranek/buftermio/blob/main/type_buffer.go) or [GoDoc](https://pkg.go.dev/github.com/skovranek/buftermio#NewBuffer)
 ## Implement
 1) Instantiate the buffer _**once**_ with the NewBuffer function from buftermio. It takes optional variatic string arguments which are joined to form the prompt which prints out before getting input.
 ```go
