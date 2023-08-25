@@ -1,5 +1,6 @@
-# buftermio [![](https://godoc.org/github.com/skovranek/buftermio?status.svg)](https://pkg.go.dev/github.com/skovranek/buftermio#section-readme)
+# buftermio
 buffer for terminal input/output --> __*buf*__ + __*term*__ + __*io*__
+[![](https://godoc.org/github.com/skovranek/buftermio?status.svg)](https://pkg.go.dev/github.com/skovranek/buftermio#section-readme)
 ## What
 This is a cached buffer for input from your CLI for your Go program. Perfect for a REPL!
 
