@@ -17,7 +17,7 @@ Run
 ```
 go get github.com/skovranek/buftermio
 ```
-## Example Usage
+## Implement
 1) Instantiate the buffer _**once**_ with the NewBuffer function from buftermio. It takes optional variatic string arguments which are joined to form the prompt which prints out before getting input.
 ```go
 buffer := buftermio.NewBuffer("Hello ", username, ":")
