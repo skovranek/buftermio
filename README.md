@@ -1,23 +1,22 @@
-# buftermio
+# buftermio [![](https://godoc.org/github.com/skovranek/buftermio?status.svg)](https://pkg.go.dev/github.com/skovranek/buftermio#section-readme)
 Buffer for Terminal Input/Output --> __buf__ + __term__ + __io__
-[![](https://godoc.org/github.com/skovranek/buftermio?status.svg)](https://pkg.go.dev/github.com/skovranek/buftermio#section-readme)
-### What
+## What
 This is a cached buffer for input from your CLI for your Go program. Perfect for a REPL!
 
 _Basically, an improved interface for a bufio.Scanner reading os.Stdin._
-### Why
+## Why
 When you use a CLI shell, you may take for granted that you have a cached history of your inputs. Then, when you go to use your own CLI program, suddenly you've lost that cache and have to type each command anew instead of just pressing up to scroll through previous commands. Here is buftermio to the rescue. Buftermio let's you scroll through your previous inputs with the up and down arrow keys!
 
 I made this to be as simple and straight forward as possible. No configuration except the optional prompt like a shell would have.
-### How
+## How
 Inspired by and based on the bytes package [Buffer](https://pkg.go.dev/bytes#Buffer) struct. Buftermio isn't a goroutine, but uses a for-loop with bufio.Scanner.Scan() on os.Stdin while getting input.
-### Download/Install
+## Download/Install
 Run:
 ```
 go get github.com/skovranek/buftermio
 ```
-### Example Usage
-1) Instantiate the buffer **once** with the NewBuffer function from buftermio. It takes optional variatic string arguments which are joined to form the prompt which prints out before getting input.
+## Example Usage
+1) Instantiate the buffer _**once**_ with the NewBuffer function from buftermio. It takes optional variatic string arguments which are joined to form the prompt which prints out before getting input.
 ```go
 buffer := buftermio.NewBuffer("Hello ", username, ":")
 // or
@@ -29,15 +28,15 @@ buffer := buftermio.NewBuffer()
 ```go
 input, err := buffer.GetInput()
 ```
-### Controls
+## Controls
 - Use up/down arrows to scroll though cache.
 - Use left/right arrows for moving the cursor left/right. It will insert characters instead of overwriting them.
 - Use return to enter input.
 - Using tab will output four spaces. I found the tab functionality was inconsistent in the CLI, so I simplified it.
 - _Note: Keys with escape sequences may not work. A-Z, 0-9, and most keys will behave normally. But, if on the off chance there is unpredicted effects when you use certain keys, you now know why. I'll gladly modify this if it becomes a problem for anyone._
-### Dependencies
+## Dependencies
 Buftermio uses a subrepository from the Go Project called [execabs](https://pkg.go.dev/golang.org/x/sys/execabs) instead of "os/exec" because of a [path-security issue](https://go.dev/blog/path-security) with "os/exec".
-### Contact
+## Contact
 Questions, issues or suggestions: mattjskov@gmail.com
-### Contribute
+## Contribute
 Feel free to chip in. Submit pull requests to the 'main' branch.
