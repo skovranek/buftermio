@@ -9,9 +9,9 @@ When you use a CLI shell, you may take for granted that you have a cached histor
 
 I made this to be as simple and straight forward as possible. No configuration except the optional prompt like a shell would have.
 ## How
-Inspired by and based on the bytes package [Buffer](https://pkg.go.dev/bytes#Buffer) struct. Buftermio isn't a goroutine, but uses a for-loop with bufio.Scanner.Scan() on os.Stdin while getting input.
+Inspired by and based on the bytes package [Buffer](https://pkg.go.dev/bytes#Buffer) struct. Buftermio uses a for-loop with bufio.Scanner.Scan() on os.Stdin while getting input.
 ## Download/Install
-Run:
+Run
 ```
 go get github.com/skovranek/buftermio
 ```
@@ -29,10 +29,10 @@ buffer := buftermio.NewBuffer()
 input, err := buffer.GetInput()
 ```
 ## Controls
-- Use up/down arrows to scroll though cache.
-- Use left/right arrows for moving the cursor left/right. It will insert characters instead of overwriting them.
-- Use return to enter input.
-- Using tab will output four spaces. I found the tab functionality was inconsistent in the CLI, so I simplified it.
+- Up/down arrows to scroll though cache.
+- Left/right arrows to move the cursor left/right. Buftermio will insert characters instead of overwriting them.
+- Return to enter input.
+- Tab will output four spaces. I found the tab functionality was inconsistent in the CLI, so I simplified it.
 - _Note: Keys with escape sequences may not work. A-Z, 0-9, and most keys will behave normally. But, if on the off chance there is unpredicted effects when you use certain keys, you now know why. I'll gladly modify this if it becomes a problem for anyone._
 ## Dependencies
 Buftermio uses a subrepository from the Go Project called [execabs](https://pkg.go.dev/golang.org/x/sys/execabs) instead of "os/exec" because of a [path-security issue](https://go.dev/blog/path-security) with "os/exec".
