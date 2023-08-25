@@ -31,6 +31,7 @@ buffer := buftermio.NewBuffer()
 input, err := buffer.GetInput()
 ```
 ## UI Controls
+Using buftermio should feel like using the interface of a shell like bash or zsh.
 - Up/down arrows to scroll though the cached history of inputs.
 - Left/right arrows to move the cursor left/right. Buftermio will insert characters instead of overwriting them.
 - Return to enter input.
