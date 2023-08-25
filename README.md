@@ -26,7 +26,7 @@ buffer := buftermio.NewBuffer("$ ")
 // or
 buffer := buftermio.NewBuffer()
 ```
-2) Call the GetInput method on the buffer each time you want to get input from the CLI.
+2) Call the GetInput method on the buffer each time you want to get input from the CLI. GetInput returns a string.
 ```go
 input, err := buffer.GetInput()
 ```
