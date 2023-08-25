@@ -30,7 +30,7 @@ buffer := buftermio.NewBuffer()
 ```go
 input, err := buffer.GetInput()
 ```
-## Controls
+## UI Controls
 - Up/down arrows to scroll though cache.
 - Left/right arrows to move the cursor left/right. Buftermio will insert characters instead of overwriting them.
 - Return to enter input.
