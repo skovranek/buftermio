@@ -36,7 +36,7 @@ input, err := buffer.GetInput()
 - Tab will output four spaces. I found the tab functionality was inconsistent in the CLI, so I simplified it.
 - _Note: Keys with escape sequences may not work. A-Z, 0-9, and most keys will behave normally. But, if on the off chance there is unpredicted effects when you use certain keys, you now know why. I'll gladly modify this if it becomes a problem for anyone._
 ## Dependencies
-Buftermio uses a subrepository from the Go Project called [execabs](https://pkg.go.dev/golang.org/x/sys/execabs) instead of "os/exec" because of a [path-security issue](https://go.dev/blog/path-security) with "os/exec".
+Buftermio uses a subrepository from the Go Project called [execabs](https://pkg.go.dev/golang.org/x/sys/execabs) instead of the standard library's "os/exec" package because of a [path-security issue](https://go.dev/blog/path-security) with "os/exec".
 ## Contact
 Questions, issues or suggestions: mattjskov@gmail.com
 ## Contribute
