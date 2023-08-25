@@ -7,7 +7,7 @@ Buftermio is an importable Go package. It provides a cached buffer for input fro
 
 _Basically, an improved interface for a bufio.Scanner reading os.Stdin._
 ## Why
-When you use a CLI shell, you may take for granted that you have a cached history of your inputs. Then, when you go to use your own CLI program, suddenly you've lost that cache and have to type each command anew instead of just pressing up to scroll through previous commands. Here is buftermio to the rescue. Buftermio lets you scroll through your previous inputs with the up and down arrow keys!
+When you use a CLI shell, you may take for granted that you have a cached history of your commands. Then, when you go to use your own CLI program, suddenly you've lost that cache and have to type each command anew instead of just pressing up to scroll through previous commands. Here is buftermio to the rescue. Buftermio lets you scroll through your previous inputs with the up and down arrow keys!
 
 I made this to be as simple and straight forward as possible. No configuration except the optional prompt like a shell would have.
 ## How
