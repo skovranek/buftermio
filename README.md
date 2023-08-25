@@ -31,7 +31,7 @@ buffer := buftermio.NewBuffer()
 input, err := buffer.GetInput()
 ```
 ## UI Controls
-- Up/down arrows to scroll though cache.
+- Up/down arrows to scroll though the cached history of inputs.
 - Left/right arrows to move the cursor left/right. Buftermio will insert characters instead of overwriting them.
 - Return to enter input.
 - Tab will output four spaces. I found the tab functionality was inconsistent in the CLI, so I simplified it.
