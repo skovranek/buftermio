@@ -11,7 +11,7 @@ When you use a CLI shell, you may take for granted that you have a cached histor
 
 I made this to be as simple and straight forward as possible. No configuration except the optional prompt like a shell would have.
 ## How
-Inspired by the bytes package [Buffer](https://pkg.go.dev/bytes#Buffer) struct. Buftermio uses a for-loop with [bufio.Scanner.Bytes()](https://pkg.go.dev/bufio#Scanner.Bytes) on [os.Stdin](https://pkg.go.dev/os#pkg-variables) while getting input.
+Inspired by the bytes package [Buffer](https://pkg.go.dev/bytes#Buffer) struct. Buftermio uses a [bufio.Scanner]([https://pkg.go.dev/bufio#Scanner.Bytes](https://pkg.go.dev/bufio#Scanner)) to read from [os.Stdin](https://pkg.go.dev/os#pkg-variables) for input. It temporarily prevents the CLI shell from printing to Stdout while buftermio reads from Stdin.
 ## Download/Install
 Run
 ```
