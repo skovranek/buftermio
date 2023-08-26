@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-func (b *Buffer) backSpace() {
+func (b *Buffer) backspace() {
 	if b.len > 1 {
 		b.removeSlice(2)
 		left(b.cursor + 1)
@@ -63,6 +63,26 @@ func (b *Buffer) cursorLeft() {
 	} else {
 		bell()
 	}
+}
+
+func (b *Buffer) cursorSOL() {
+    b.removeSlice(2)
+    if b.cursor > 0 {
+        left(b.cursor)
+        b.cursor = 0
+    } else {
+        bell()
+    }
+}
+
+func (b *Buffer) cursorEOL() {
+    b.removeSlice(2)
+    if b.cursor < b.len {
+        fmt.Print(strings.Repeat(string(RIGHTARROW), b.len - b.cursor))
+        b.cursor = b.len
+    } else {
+        bell()
+    }
 }
 
 func (b *Buffer) fourSpaces() {

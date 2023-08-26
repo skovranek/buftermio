@@ -10,5 +10,5 @@ func bell() {
 }
 
 func left(n int) {
-	fmt.Print(strings.Repeat(string(LEFTARROW), n))
+	fmt.Print(strings.Repeat(string(leftArrow), n))
 }

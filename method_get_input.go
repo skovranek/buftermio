@@ -25,24 +25,29 @@ func (b *Buffer) GetInput() (string, error) {
 			b.cursor++
 		}
 
-		if b.contains(DELETE) {
-			b.backSpace()
-		} else if b.contains(UPARROW) {
+		if b.contains(del) {
+			b.backspace()
+		} else if b.contains(upArrow) {
 			b.upIndex()
-		} else if b.contains(DOWNARROW) {
+		} else if b.contains(downArrow) {
 			b.downIndex()
-		} else if b.contains(RIGHTARROW) {
+		} else if b.contains(rightArrow) {
 			b.cursorRight()
-		} else if b.contains(LEFTARROW) {
+		} else if b.contains(leftArrow) {
 			b.cursorLeft()
-		} else if b.contains(TAB) {
+		} else if b.contains(tab) {
 			b.fourSpaces()
-
+        } else if b.contains(ctrlA) {
+            b.cursorSOL()
+        } else if b.contains(ctrlE) {
+            b.cursorEOL()
+        //} else if b.contains(ctrlW) {
+        //    b.deleteWord()
 		// if byte is escape key, skip it (to handle arrow bytes)
-		} else if b.contains(ESCAPE) {
+		} else if b.contains(esc) {
 			prevEsc = true
 		// if byte is part of arrow's escape sequence, skip it
-		} else if b.contains(OPENBRACKET) && prevEsc {
+		} else if b.contains(openBracket) && prevEsc {
 			prevEsc = false
 		} else {
 			fmt.Print(string(next))
@@ -52,7 +57,7 @@ func (b *Buffer) GetInput() (string, error) {
 			}
 			prevEsc = false
 		}
-		if b.contains(CARRIAGERETURN) {
+		if b.contains(carriageReturn) {
 			return b.enter(), nil
 		}
 	}
