@@ -2,12 +2,13 @@ package buftermio
 
 import (
 	"fmt"
+    "strings"
 )
 
 func (b *Buffer) backspace() {
 	if b.len > 1 {
 		b.removeSlice(2)
-		left(b.cursor + 1)
+		left(b.cursor)
 		fmt.Print(string(b.buf), " ")
 		left(b.len - b.cursor + 1)
 	} else {
@@ -48,7 +49,7 @@ func (b *Buffer) downIndex() {
 func (b *Buffer) cursorRight() {
 	b.removeSlice(3)
 	if b.cursor < b.len {
-		fmt.Print(string(RIGHTARROW))
+		fmt.Print(string(rightArrow))
 		b.cursor++
 	} else {
 		bell()
@@ -78,7 +79,7 @@ func (b *Buffer) cursorSOL() {
 func (b *Buffer) cursorEOL() {
     b.removeSlice(2)
     if b.cursor < b.len {
-        fmt.Print(strings.Repeat(string(RIGHTARROW), b.len - b.cursor))
+        fmt.Print(strings.Repeat(string(rightArrow), b.len - b.cursor))
         b.cursor = b.len
     } else {
         bell()
@@ -87,7 +88,7 @@ func (b *Buffer) cursorEOL() {
 
 func (b *Buffer) fourSpaces() {
 	b.removeSlice(1)
-	b.insert(FOURSPACES)
+	b.insert(fourSpaces)
 	left(b.cursor - 4)
 	fmt.Print(string(b.buf))
 	left(b.len - b.cursor)
