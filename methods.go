@@ -8,7 +8,7 @@ import (
 func (b *Buffer) backspace() {
 	if b.len > 1 {
 		b.removeSlice(2)
-		left(b.cursor)
+        left(b.cursor + 1)
 		fmt.Print(string(b.buf), " ")
 		left(b.len - b.cursor + 1)
 	} else {
