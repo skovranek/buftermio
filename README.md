@@ -42,8 +42,8 @@ Using buftermio should feel like using the interface of a shell like bash or zsh
 ## Dependencies
 Buftermio uses a subrepository from the Go Project called [execabs](https://pkg.go.dev/golang.org/x/sys/execabs) instead of the standard library's "os/exec" package because of a [path-security issue](https://go.dev/blog/path-security) with "os/exec". No other dependencies are included.
 ## Testing
-Manually tested with a bash shell in the macOS terminal. Mocking stdin would only test the mock.
+Manually tested with a zsh shell in the macOS terminal. Mocking stdin would only test the mock. Please let me know if buftermio does not work as expected in your environment.
 ## Contact
-Questions, issues or suggestions: mattjskov@gmail.com
+Questions, issues or suggestions: mattjskov at gmail.com
 ## Contribute
 Feel free to chip in. Let's work together to customize buftermio for your project. Submit pull requests to the 'main' branch.
