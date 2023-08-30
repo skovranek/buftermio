@@ -31,7 +31,7 @@ buffer := buftermio.NewBuffer()
 input, err := buffer.GetInput()
 ```
 ## Example
-Here is a simple REPL that uses buftermio. Each loop it prints the prompt "input: ", waits for input from the terminal through buftermio, then echos the input and prints the keycodes. Potentially useful for checking keycodes.
+Here is a simple REPL that uses buftermio. Each loop it prints the prompt "input: " and waits for input from the terminal through buftermio, then echos the input and prints the keycodes. Potentially useful for checking keycodes.
 ```go
 package main
 
@@ -55,8 +55,7 @@ func main() {
             return
         }
 
-        fmt.Printf("output: %s\n", input)
-        fmt.Printf("bytes: %v\n\n", []byte(input))
+        fmt.Printf("output: %s\nbytes: %v\n\n", input, []byte(input))
     }
 }
 ```
