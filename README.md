@@ -38,7 +38,7 @@ Using buftermio should feel like using the interface of a shell like bash or zsh
 - Tab will output four spaces. I found the tab functionality was inconsistent in the CLI, so I simplified it.
 - Ctrl+A will move the cursor to the start of the line.
 - Ctrl+E will move the cursor to the end of the line.
- 
+- Ctrl+W will delete the previous word.
 > **WARNING**
 > Pressing keys or key combinations that produce keycode sequences, such as <Alt+A>, may not work as expected. This is a known issue and may cause errors because buftermio is not a keylogger counting keystrokes. It is only counting the character bytes from Stdin. A-Z, 0-9, and most keys will behave normally. But, if on the off chance there are unpredicted effects when you use certain keys, you now know why. I'll gladly add checks for certain sequences for anyone that requires it.
 ## Dependencies
