@@ -31,7 +31,7 @@ buffer := buftermio.NewBuffer()
 input, err := buffer.GetInput()
 ```
 ## Example
-Here is an example of a REPL that uses buftermio to echo the input and print the keycodes. Useful for checking keycodes.
+Here is an example of a simple REPL that uses buftermio. Each loop it prints the prompt "input: ", waits for input from the terminal through buftermio, then echos the input and print the keycodes. Potentially useful for checking keycodes.
 ```go
 package main
 
