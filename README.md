@@ -42,7 +42,6 @@ import (
 )
 
 func main() {
-    cont := true
     buffer := buftermio.NewBuffer("input: ")
 	
     for {
