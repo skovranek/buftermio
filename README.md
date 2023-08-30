@@ -30,6 +30,37 @@ buffer := buftermio.NewBuffer()
 ```go
 input, err := buffer.GetInput()
 ```
+## Example
+Here is an example of a REPL that uses buftermio to echo the input and print the keycodes. Useful for checking keycodes.
+```go
+package main
+
+import (
+    "fmt"
+
+    "github.com/skovranek/buftermio"
+)
+
+func main() {
+    cont := true
+    buffer := buftermio.NewBuffer("input: ")
+	
+    for {
+        input, err := buffer.GetInput()
+        if err != nil {
+            fmt.Println(err)
+            continue
+        }
+
+        if input == "q" {
+            return
+        }
+
+        fmt.Printf("output: %s\n", input)
+        fmt.Printf("bytes: %v\n\n", []byte(input))
+    }
+}
+```
 ## UI Controls
 Using buftermio should feel like using the interface of a shell like bash or zsh.
 - Up/down arrows to scroll though the cached history of inputs.
