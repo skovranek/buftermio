@@ -9,6 +9,6 @@ func bell() {
 	fmt.Print(string(uint8(7)))
 }
 
-func left(n int) {
-	fmt.Print(strings.Repeat(string(leftArrow), n))
+func printLeft(n int) {
+	fmt.Print(strings.Repeat(string(left), n))
 }

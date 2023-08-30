@@ -1,15 +1,26 @@
 package buftermio
 
-import exec "golang.org/x/sys/execabs"
+import (
+	"log"
+
+	exec "golang.org/x/sys/execabs"
+)
 
 func prepTerm() {
 	// turn off buffer
-	exec.Command("stty", "-f", "/dev/tty", "cbreak", "min", "1").Run()
+	if err := exec.Command("stty", "-f", "/dev/tty", "cbreak", "min", "1").Run(); err != nil {
+		log.Fatal(err)
+	}
+
 	// do not display Stdin
-	exec.Command("stty", "-f", "/dev/tty", "-echo").Run()
+	if err := exec.Command("stty", "-f", "/dev/tty", "-echo").Run(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func deferSane() {
 	// set terminal to normal
-	exec.Command("stty", "-f", "/dev/tty", "sane").Run()
+	if err := exec.Command("stty", "-f", "/dev/tty", "sane").Run(); err != nil {
+		log.Fatal(err)
+	}
 }

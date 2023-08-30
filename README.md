@@ -36,7 +36,9 @@ Using buftermio should feel like using the interface of a shell like bash or zsh
 - Left/right arrows to move the cursor left/right. Buftermio will insert characters instead of overwriting them.
 - Return to enter input.
 - Tab will output four spaces. I found the tab functionality was inconsistent in the CLI, so I simplified it.
-- _Note: Keys with escape sequences may not work. A-Z, 0-9, and most keys will behave normally. But, if on the off chance there is unpredicted effects when you use certain keys, you now know why. I'll gladly modify this if it becomes a problem for anyone._
+- Ctrl+A will move the cursor to the start of the line.
+- Ctrl+E will move the cursor to the end of the line.
+- [!WARNING] Pressing keys or key combinations that produce keycode sequences, such as <Alt+A>, may not work as expected. This is a known issue and may cause errors because buftermio is not a keylogger counting keystrokes. It is only counting the character bytes from Stdin. A-Z, 0-9, and most keys will behave normally. But, if on the off chance there are unpredicted effects when you use certain keys, you now know why. I'll gladly add checks for certain sequences for anyone that requires it._
 ## Dependencies
 Buftermio uses a subrepository from the Go Project called [execabs](https://pkg.go.dev/golang.org/x/sys/execabs) instead of the standard library's "os/exec" package because of a [path-security issue](https://go.dev/blog/path-security) with "os/exec". No other dependencies are included.
 ## Testing

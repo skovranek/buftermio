@@ -1,10 +1,13 @@
 package buftermio
 
-import "fmt"
+import (
+	"bytes"
+	"fmt"
+)
 
 func (b *Buffer) GetInput() (string, error) {
 	defer deferSane()
-    prepTerm()
+	prepTerm()
 
 	fmt.Print(b.prompt)
 
@@ -25,39 +28,39 @@ func (b *Buffer) GetInput() (string, error) {
 			b.cursor++
 		}
 
-		if b.contains(del) {
+		if bytes.Contains(b.buf, del) {
 			b.backspace()
-		} else if b.contains(upArrow) {
+		} else if bytes.Contains(b.buf, up) {
 			b.upIndex()
-		} else if b.contains(downArrow) {
+		} else if bytes.Contains(b.buf, down) {
 			b.downIndex()
-		} else if b.contains(rightArrow) {
+		} else if bytes.Contains(b.buf, right) {
 			b.cursorRight()
-		} else if b.contains(leftArrow) {
+		} else if bytes.Contains(b.buf, left) {
 			b.cursorLeft()
-		} else if b.contains(tab) {
+		} else if bytes.Contains(b.buf, tab) {
 			b.fourSpaces()
-        } else if b.contains(ctrlA) {
-            b.cursorSOL()
-        } else if b.contains(ctrlE) {
-            b.cursorEOL()
-        //} else if b.contains(ctrlW) {
-        //    b.deleteWord()
-		// if byte is escape key, skip it (to handle arrow bytes)
-		} else if b.contains(esc) {
+		} else if bytes.Contains(b.buf, soh) {
+			b.cursorSOL()
+		} else if bytes.Contains(b.buf, enq) {
+			b.cursorEOL()
+		} else if bytes.Contains(b.buf, etb) {
+			b.deleteWord()
+			// if byte is escape key, skip it (to handle arrow bytes)
+		} else if bytes.Contains(b.buf, esc) {
 			prevEsc = true
-		// if byte is part of arrow's escape sequence, skip it
-		} else if b.contains(openBracket) && prevEsc {
+			// if byte is part of arrow's escape sequence, skip it
+		} else if bytes.Contains(b.buf, openBracket) && prevEsc {
 			prevEsc = false
 		} else {
 			fmt.Print(string(next))
 			if b.cursor < b.len {
 				fmt.Print(string(b.buf[b.cursor:]))
-				left(b.len - b.cursor)
+				printLeft(b.len - b.cursor)
 			}
 			prevEsc = false
 		}
-		if b.contains(carriageReturn) {
+		if bytes.Contains(b.buf, carriageReturn) {
 			return b.enter(), nil
 		}
 	}

@@ -2,15 +2,15 @@ package buftermio
 
 import (
 	"fmt"
-    "strings"
+	"strings"
 )
 
 func (b *Buffer) backspace() {
-	if b.len > 1 {
+	if b.cursor > 1 {
 		b.removeSlice(2)
-        left(b.cursor + 1)
+		printLeft(b.cursor + 1)
 		fmt.Print(string(b.buf), " ")
-		left(b.len - b.cursor + 1)
+		printLeft(b.len - b.cursor + 1)
 	} else {
 		b.removeSlice(1)
 		bell()
@@ -49,7 +49,7 @@ func (b *Buffer) downIndex() {
 func (b *Buffer) cursorRight() {
 	b.removeSlice(3)
 	if b.cursor < b.len {
-		fmt.Print(string(rightArrow))
+		fmt.Print(string(right))
 		b.cursor++
 	} else {
 		bell()
@@ -59,7 +59,7 @@ func (b *Buffer) cursorRight() {
 func (b *Buffer) cursorLeft() {
 	b.removeSlice(3)
 	if b.cursor > 0 {
-		left(1)
+		printLeft(1)
 		b.cursor--
 	} else {
 		bell()
@@ -67,31 +67,56 @@ func (b *Buffer) cursorLeft() {
 }
 
 func (b *Buffer) cursorSOL() {
-    b.removeSlice(2)
-    if b.cursor > 0 {
-        left(b.cursor)
-        b.cursor = 0
-    } else {
-        bell()
-    }
+	b.removeSlice(1)
+	if b.cursor > 0 {
+		printLeft(b.cursor)
+		b.cursor = 0
+	} else {
+		bell()
+	}
 }
 
 func (b *Buffer) cursorEOL() {
-    b.removeSlice(2)
-    if b.cursor < b.len {
-        fmt.Print(strings.Repeat(string(rightArrow), b.len - b.cursor))
-        b.cursor = b.len
-    } else {
-        bell()
-    }
+	b.removeSlice(1)
+	if b.cursor < b.len {
+		fmt.Print(strings.Repeat(string(right), b.len-b.cursor))
+		b.cursor = b.len
+	} else {
+		bell()
+	}
+}
+
+func (b *Buffer) deleteWord() {
+	b.removeSlice(1)
+	if b.cursor == 0 {
+		bell()
+		return
+	}
+	isWord := false
+	for {
+		if b.cursor > 0 {
+			if isWord && b.buf[b.cursor-1] == space {
+				return
+			}
+			if !isWord && b.buf[b.cursor-1] != space {
+				isWord = true
+			}
+			b.removeSlice(1)
+			printLeft(b.cursor + 1)
+			fmt.Print(string(b.buf), " ")
+			printLeft(b.len - b.cursor + 1)
+		} else {
+			return
+		}
+	}
 }
 
 func (b *Buffer) fourSpaces() {
 	b.removeSlice(1)
 	b.insert(fourSpaces)
-	left(b.cursor - 4)
+	printLeft(b.cursor - 4)
 	fmt.Print(string(b.buf))
-	left(b.len - b.cursor)
+	printLeft(b.len - b.cursor)
 }
 
 func (b *Buffer) enter() string {
