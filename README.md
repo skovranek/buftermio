@@ -16,19 +16,23 @@ Run
 go get github.com/skovranek/buftermio
 ```
 ## Configure
-I made this to be as simple and straight forward as possible. The only configuration is an optional string prompt like a shell would have. The new NewBuffer function takes variatic string arguments which are joined to form the prompt which prints out before getting input. See the NewBuffer function: [GitHub](https://github.com/skovranek/buftermio/blob/main/func_new_buffer.go) or [GoDocs](https://pkg.go.dev/github.com/skovranek/buftermio#NewBuffer)
+I made this to be as simple and straight forward as possible. The only configuration is an optional string prompt like a shell would have. You have two ways to set the prompt. First, you can set a default prompt with the NewBuffer funcation. Second, you can set the prompt case-by-case whenever you call the GetInput method. Both NewBuffer and GetInput take variatic string arguments which form the prompt which prints out before getting input. See Implement for details.
 ## Implement
-1) Instantiate the buffer _**once**_ with the NewBuffer function from buftermio. It takes optional variatic string arguments which are joined to form the prompt which prints out before getting input.
+1) Instantiate the buffer _**once**_ with the NewBuffer function from buftermio. It takes an optional variatic string argument which is joined to form the prompt which prints out before getting input.
 ```go
-buffer := buftermio.NewBuffer("Hello ", username, ":")
+buffer := buftermio.NewBuffer("Hello ", username, ": ")
 // or
 buffer := buftermio.NewBuffer("$ ")
 // or
 buffer := buftermio.NewBuffer()
 ```
-2) Call the GetInput method on the buffer each time you want to get input from the CLI. GetInput returns a string.
+2) Call the GetInput method on the buffer each time you want to get input from the CLI. It takes a optional variatic string argument that overrides the default prompt. GetInput returns a string.
 ```go
-input, err := buffer.GetInput()
+Input, err := buffer.GetInput("Input from ", username, ": ")
+// or
+Input, err := buffer.GetInput(fmt.Sprintf("Query #%v: ", i))
+// or
+Input, err := buffer.GetInput()
 ```
 ## Example
 Here is a simple REPL that uses buftermio. Each loop it prints the prompt "input: " and waits for input from the terminal through buftermio, then echos the input and prints the keycodes. Potentially useful for checking keycodes.
