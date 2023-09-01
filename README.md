@@ -16,7 +16,7 @@ Run
 go get github.com/skovranek/buftermio
 ```
 ## Configure
-I made this to be as simple and straight forward as possible. The only configuration is an optional string prompt like a shell would have. You have two ways to set the prompt. First, you can set a default prompt with the NewBuffer funcation. Second, you can set the prompt case-by-case whenever you call the GetInput method. Both NewBuffer and GetInput take variatic string arguments which form the prompt which prints out before getting input. See Implement for details.
+I made this to be as simple and straight forward as possible. The only configuration is an optional string prompt like a shell would have. You have two ways to set the prompt. First, you can set a default prompt with the NewBuffer function. Second, you can set the prompt case-by-case whenever you call the GetInput method. Both NewBuffer and GetInput take variatic string arguments which form the prompt which prints out before getting input. See the "Implement" section for details.
 ## Implement
 1) Instantiate the buffer _**once**_ with the NewBuffer function from buftermio. It takes an optional variatic string argument which is joined to form the prompt which prints out before getting input.
 ```go
